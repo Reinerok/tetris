@@ -21,28 +21,24 @@ export default class Piece {
     }
 
     rotate(clockwise) {
-        const blocks = this.blocks;
-        const length = blocks.length;
-        const x = Math.floor(length / 2);
-        const y = length - 1;
+        let blocks = this.blocks;      
+        let res = [];
+        var temp;
+        
+        for(let i = 0; i < blocks[0].length; i++){
+          temp = [];
+          for(let k = blocks.length-1; k>=0; k--){
+              temp.push(blocks[k][i]);
+          }
+          res.push(temp);
+        }
 
-        for (let i = 0; i < x; i++) {
-            for (let j = 0; j < y; j++) {
-                let temp = blocks[i][j];
-
-                if(!clockwise) {
-                    blocks[i][j] = blocks[y - j][i];
-                    blocks[y - j][i] = blocks[y - i][y - j];
-                    blocks[y - i][y - j] = blocks[j][y - i];
-                    blocks[j][y - i] = temp;
-                } else {
-                    blocks[i][j] = blocks[j][y - i];
-                    blocks[j][y - i] = blocks[y - i][y - j];
-                    blocks[y - i][y - j] = blocks[y - j][i];
-                    blocks[y - j][i] = temp;
-                }
+        for (let i = 0; i < blocks[0].length; i++) {
+            for (let j = 0; j < blocks.length; j++) {
+                blocks[i][j] = res[i][j];
             }
-        }  
+        }
+        
     }
     *[Symbol.iterator]() {
         for (let y = 0; y < this.blocks.length; y++) {
